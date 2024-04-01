@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core">
-     <f:metadata>
+    <f:metadata>
         <f:viewParam name="idCustomer" value="#{customerDetailsBean.idCustomer}"
                      required="true"/>
         <f:viewAction action="#{customerDetailsBean.loadCustomer}"/>
@@ -36,7 +36,7 @@
                     <h:inputText id="email" value="#{customerDetailsBean.customer.email}" title="Email" />
                     <h:outputLabel value="CreditLimit:" for="creditLimit" />
                     <h:inputText id="creditLimit" value="#{customerDetailsBean.customer.creditLimit}" title="CreditLimit" />
-                    <h:outputLabel value="Discount par ordre croissant" for="discount" />
+                    <!-- <h:outputLabel value="Discount par ordre croissant" for="discount" />
                     <h:selectOneMenu id="Code_asc" value="#{customerDetailsBean.customer.discount.code}">
                         <f:selectItems value="#{customerDetailsBean.getDiscountsAsc()}" var="discount" 
                                        itemLabel="#{discount.code}: #{discount.rate} %" />
@@ -44,7 +44,20 @@
                     <h:outputLabel value="Discount par ordre décroissant:" for="discount" />
                     <h:selectOneMenu id="Code_desc" value="#{customerDetailsBean.customer.discount.code}">
                         <f:selectItems value="#{customerDetailsBean.getDiscountsDesc()}" var="discount" 
-                                       itemLabel="#{discount.code}: #{discount.rate} %" /></h:selectOneMenu>
+                                       itemLabel="#{discount.code}: #{discount.rate} %" />
+                    </h:selectOneMenu> -->
+                    <h:outputLabel value="DiscountCode" for="discount" />
+                    <h:selectOneMenu id="discount" value="#{customerDetailsBean.customer.discount.code}"   
+                                     title="Discount" required="true" 
+                                     requiredMessage="The Discount field is required."  
+                                     converter="discountConverter">   
+                        <f:selectItems value="#{customerDetailsBean.discounts}"  
+                                       var="discount"   
+                                       itemLabel="#{discount.code} : #{discount.rate} %" 
+                                       itemValue="#{discount}" />  
+                    </h:selectOneMenu>
+                    <h:button id="back" value="Revenir à la liste" outcome="customerList"/>
+                    <h:commandButton id="update" value="Enregistrer" action="#{customerDetailsBean.update}"/>
                 </h:panelGrid>
             </h:form>
         </f:view>
